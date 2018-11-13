@@ -1,0 +1,19 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: The replicated bucket
+
+Resources:
+  SimpleBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: BucketOwnerFullControl
+      VersioningConfiguration:
+        Status: Enabled
+
+Outputs:
+  BucketName:
+    Description: S3 bucket name
+    Value: !Ref SimpleBucket
+  BucketArn:
+    Description: The ARN of the bucket
+    Value: !GetAtt SimpleBucket.Arn

@@ -1,0 +1,49 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: The source bucket
+
+Parameters:
+  ReplicatedBucketArn:
+    Type: String
+
+Resources:
+  ReplicatedBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: BucketOwnerFullControl
+      VersioningConfiguration:
+        Status: Enabled
+      ReplicationConfiguration:
+        Role: !GetAtt ReplicationRole.Arn
+        Rules:
+          - Prefix: ''
+            Status: Enabled
+            Destination:
+              Bucket: !Ref ReplicatedBucketArn
+
+  ReplicationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: s3.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: Allow
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource:
+                  - '*'
+Outputs:
+  BucketName:
+    Description: S3 bucket name
+    Value: !Ref ReplicatedBucket
+  BucketArn:
+    Description: The ARN of the bucket
+    Value: !GetAtt ReplicatedBucket.Arn

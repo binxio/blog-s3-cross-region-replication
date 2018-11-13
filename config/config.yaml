@@ -1,0 +1,3 @@
+project_code: cross-region-replication
+region: {{ environment_path.1 }}
+profile: default

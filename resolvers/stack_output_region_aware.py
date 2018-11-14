@@ -26,22 +26,17 @@ class StackOutputRegionAware(StackOutput):
 
         old_connection_manager = self.connection_manager
         if self.connection_manager.region != region or self.connection_manager.profile != profile:
-            print(
-                "Source stack '%s' located in '%s/%s', making sure underying CloudFormation stack " +
-                    "is descibed in this region and not in '%s/%s' where resolving the output",
-                source_stack_path, profile, region, self.connection_manager.profile, self.connection_manager.region)
+            print(f"Source stack '{source_stack}' located in '{profile}/{region}', making sure underying CloudFormation stack is descibed in this region and not in '{self.connection_manager.profile}/{self.connection_manager.region}' where resolving the output")
 
             self.connection_manager = ConnectionManager(
                 region=region, iam_role=self.connection_manager.iam_role,
                 profile=profile)
         else:
-            print(
-                "Source stack '%s' is located in the same region as where resolving the output: '%s'",
-                source_stack_path, region)
+            print(f"Source stack '{source_stack_path}' is located in the same region as where resolving the output: '{region}'")
 
         output_value = self.real_stack_output_resolver()
         self.connection_manager = old_connection_manager
 
-        print("OutputValue fetched: %s", output_value)
+        print(f"OutputValue fetched: {output_value}")
 
         return output_value

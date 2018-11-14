@@ -7,7 +7,7 @@ Parameters:
     Type: String
 
 Resources:
-  ReplicatedBucket:
+  USBucket:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: BucketOwnerFullControl
@@ -43,7 +43,7 @@ Resources:
 Outputs:
   BucketName:
     Description: S3 bucket name
-    Value: !Ref ReplicatedBucket
+    Value: !Ref USBucket
   BucketArn:
     Description: The ARN of the bucket
-    Value: !GetAtt ReplicatedBucket.Arn
+    Value: !GetAtt USBucket.Arn

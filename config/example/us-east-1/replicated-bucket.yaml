@@ -1,3 +1,6 @@
 template_path: templates/replicated-bucket.yaml
 parameters:
   ReplicatedBucketArn: !stack_output_region_aware example/eu-west-1/bucket::BucketArn
+hooks:
+  before_delete:
+    - !s3_empty_bucket replicated-bucket::BucketName
